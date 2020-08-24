@@ -28,11 +28,17 @@ class Server < Sinatra::Application
     end
 
     namespace "/queues" do
-      get "/foo" do
+      get "/:name/count" do |name|
         content_type :json
 
+        { count: queue_client(name).size }.to_json
       end
 
+      get "/:name/jobs" do |name|
+        content_type :json
+
+        { jobs: jobs(name) }.to_json
+      end
     end
   end
 
@@ -42,21 +48,23 @@ class Server < Sinatra::Application
     Sidekiq::Stats.new
   end
 
+  def queue_client(queue_name = "default")
+    Sidekiq::Queue.new(queue_name)
+  end
+
   def stats
     stats_client = Sidekiq::Stats.new
-    {
-      processed: stats_client.processed,
-      failed: stats_client.failed,
-      scheduled: stats_client.scheduled_size,
-      retry: stats_client.retry_size,
-      dead: stats_client.dead_size,
-      enqueued: stats_client.enqueued,
-      processes: stats_client.processes_size,
-      workers: stats_client.workers_size,
-    }
+    stats_client.fetch_stats!
   end
 
   def queues
     stats_client.queues
+  end
+
+  def jobs(queue_name)
+    client = queue_client(queue_name)
+    jobs = []
+    client.each { |job| jobs << job }
+    jobs
   end
 end
