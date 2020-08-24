@@ -9,22 +9,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.1)
-    aws-eventstream (1.1.0)
-    aws-partitions (1.358.0)
-    aws-record (2.4.1)
-      aws-sdk-dynamodb (~> 1.18)
-    aws-sdk-core (3.104.4)
-      aws-eventstream (~> 1, >= 1.0.2)
-      aws-partitions (~> 1, >= 1.239.0)
-      aws-sigv4 (~> 1.1)
-      jmespath (~> 1.0)
-    aws-sdk-dynamodb (1.51.0)
-      aws-sdk-core (~> 3, >= 3.99.0)
-      aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.2.2)
-      aws-eventstream (~> 1, >= 1.0.2)
+    connection_pool (2.2.3)
     diff-lcs (1.4.4)
-    jmespath (1.4.0)
     json (2.3.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
@@ -41,6 +27,7 @@ GEM
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
     rake (13.0.1)
+    redis (4.2.1)
     regexp_parser (1.7.1)
     rexml (3.2.4)
     rspec (3.9.0)
@@ -71,6 +58,10 @@ GEM
     ruby2_keywords (0.0.2)
     rubysl-base64 (2.0.0)
     rufo (0.12.0)
+    sidekiq (6.1.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -83,7 +74,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-record
   json
   ordinare
   rack
@@ -95,6 +85,7 @@ DEPENDENCIES
   rubocop-config-rufo!
   rubysl-base64
   rufo
+  sidekiq
   sinatra
 
 BUNDLED WITH

@@ -4,12 +4,12 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem "aws-record"
 gem "json"
 gem "rack"
 gem "rack-contrib"
 gem "rake"
 gem "rubysl-base64"
+gem "sidekiq"
 gem "sinatra"
 
 group :test do
