@@ -14,11 +14,27 @@ class Server < Sinatra::Application
     end
   end
 
-  namespace "/api/sidekiq/stats" do
-    get "/processed" do
+  namespace "/api/sidekiq" do
+    get "/stats" do
       content_type :json
 
-      { data: Sidekiq::Stats.new.processed }.to_json
+      stats.to_json
     end
+  end
+
+  private
+
+  def stats
+    client = Sidekiq::Stats.new
+    {
+      processed: client.processed,
+      failed: client.failed,
+      scheduled: client.scheduled_size,
+      retry: client.retry_size,
+      dead: client.dead_size,
+      enqueued: client.enqueued,
+      processes: client.processes_size,
+      workers: client.workers_size,
+    }
   end
 end
