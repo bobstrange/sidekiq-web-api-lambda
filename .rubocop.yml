@@ -1,0 +1,2 @@
+inherit_gem:
+  rubocop-config-rufo: rubocop.yml
