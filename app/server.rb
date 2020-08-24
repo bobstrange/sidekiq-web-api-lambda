@@ -20,21 +20,43 @@ class Server < Sinatra::Application
 
       stats.to_json
     end
+
+    get "/queues" do
+      content_type :json
+
+      queues.to_json
+    end
+
+    namespace "/queues" do
+      get "/foo" do
+        content_type :json
+
+      end
+
+    end
   end
 
   private
 
+  def stats_client
+    Sidekiq::Stats.new
+  end
+
   def stats
-    client = Sidekiq::Stats.new
+    stats_client = Sidekiq::Stats.new
     {
-      processed: client.processed,
-      failed: client.failed,
-      scheduled: client.scheduled_size,
-      retry: client.retry_size,
-      dead: client.dead_size,
-      enqueued: client.enqueued,
-      processes: client.processes_size,
-      workers: client.workers_size,
+      processed: stats_client.processed,
+      failed: stats_client.failed,
+      scheduled: stats_client.scheduled_size,
+      retry: stats_client.retry_size,
+      dead: stats_client.dead_size,
+      enqueued: stats_client.enqueued,
+      processes: stats_client.processes_size,
+      workers: stats_client.workers_size,
     }
+  end
+
+  def queues
+    stats_client.queues
   end
 end
