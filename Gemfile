@@ -8,6 +8,7 @@ gem "aws-record"
 gem "json"
 gem "rack"
 gem "rack-contrib"
+gem "rake"
 gem "rubysl-base64"
 gem "sinatra"
 
