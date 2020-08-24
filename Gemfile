@@ -11,6 +11,7 @@ gem "rake"
 gem "rubysl-base64"
 gem "sidekiq"
 gem "sinatra"
+gem "sinatra-contrib"
 
 group :test do
   gem "rack-test"

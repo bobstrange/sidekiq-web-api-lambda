@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "sinatra"
+require "sinatra/namespace"
 require "sidekiq/api"
 
 # Application class
@@ -13,11 +14,11 @@ class Server < Sinatra::Application
     end
   end
 
-  ##################################
-  # Return a Hello world JSON
-  ##################################
-  get "/hello-world" do
-    content_type :json
-    { Output: "Hello World!" }.to_json
+  namespace "/api/sidekiq/stats" do
+    get "/processed" do
+      content_type :json
+
+      { data: Sidekiq::Stats.new.processed }.to_json
+    end
   end
 end
